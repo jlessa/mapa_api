@@ -1,26 +1,32 @@
-# Copyright 2018 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START gae_python37_app]
 from flask import Flask, request, jsonify, abort
-
-
-# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
-# called `app` in `main.py`.
+from dao.ImagemDao import ImagemDao
 from dao.QuestaoDao import QuestaoDao
+from mapper.mapper import Mapper
 
 app = Flask(__name__)
+
+@app.route('/questao', methods=['POST'])
+def cria_questao():
+    questaoDao = QuestaoDao()
+    data = request.data
+    if data:
+        mapper = Mapper()
+        questao = mapper.json_to_questao(data)
+        questaoDao.questao_save(questao)
+        output = {
+            "ok": "Sucesso",
+            "url": request.url,
+        }
+        res = jsonify(output)
+        res.status_code = 200
+    else:
+        output = {
+            "error": "No results found. Check url again",
+            "url": request.url,
+        }
+        res = jsonify(output)
+        res.status_code = 404
+    return res
 
 @app.route('/questao', methods=['GET'])
 def get_questoes(page=1):
@@ -47,6 +53,27 @@ def get_questoes(page=1):
             res.status_code = 404
         return res
 
+@app.route('/imagem/<int:image_id>', methods=['GET'])
+def get_imagem(image_id):
+    if request.method == 'GET':
+        imagemDao = ImagemDao()
+        imagem = imagemDao.imagem_get_by_id(int(image_id))
+        data = imagem.serialize
+        if data:
+            res = jsonify({
+                'imagem': data,
+                'meta': {
+                   'page_url': request.url}
+                })
+            res.status_code = 200
+        else:
+            output = {
+                "error": "No results found. Check url again",
+                "url": request.url,
+            }
+            res = jsonify(output)
+            res.status_code = 404
+        return res
 
 @app.route('/')
 def hello():

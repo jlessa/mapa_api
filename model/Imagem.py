@@ -16,7 +16,7 @@ class Imagem(BaseModel):
             'src': str(self.src).strip(),
             'src_site': str(self.src_site).strip(),
             'tipo': str(self.tipo).strip(),
-            'questao_id': self.questao_id,
+            # 'questao_id': self.questao_id.serialize,
         }
 
         return data

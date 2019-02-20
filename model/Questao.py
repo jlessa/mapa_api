@@ -21,6 +21,25 @@ class Questao(BaseModel):
     banca = TextField(null=True)
     texto_opcoes = TextField(null=True)
 
+    # def __init__(self, site_id='', concurso='', disciplina='', assunto='', subassunto='', tipo='', codigo='', enunciado='', op1='', op2='', op3='', op4='', op5='', gabarito='', ano='', banca='', texto_opcoes=''):
+    #     self.site_id = site_id,
+    #     self.concurso = concurso,
+    #     self.disciplina = disciplina,
+    #     self.assunto = assunto,
+    #     self.subassunto = subassunto,
+    #     self.tipo = tipo,
+    #     self.codigo = codigo,
+    #     self.enunciado = enunciado,
+    #     self.op1 = op1,
+    #     self.op2 = op2,
+    #     self.op3 = op3,
+    #     self.op4 = op4,
+    #     self.op5 = op5,
+    #     self.gabarito = gabarito,
+    #     self.ano = ano,
+    #     self.banca = banca,
+    #     self.texto_opcoes = texto_opcoes
+
     def set_opcoes(self, lista_opcoes, gabarito, cespe=False):
         self.gabarito = gabarito
         self.texto_opcoes = ''
@@ -105,3 +124,6 @@ class Questao(BaseModel):
             self.banca,
             self.texto_opcoes
         )
+
+    class Meta:
+        db_table = 'questao'

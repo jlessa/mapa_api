@@ -17,13 +17,17 @@ class ImagemDao:
 
     def imagem_get_by_id(self, id):
         db.connect()
-        imagem = Imagem.get(Imagem.id == id)
-        db.close()
+        try:
+            imagem = Imagem.get(Imagem.id == id)
+        except Exception as e:
+            print(e)
+        else:
+            db.close()
         return imagem
 
     def imagem_get_by_src(self, src):
         db.connect()
-        imagem = Imagem.get(Imagem.src== src)
+        imagem = Imagem.get(Imagem.src == src)
         db.close()
         return imagem
 
