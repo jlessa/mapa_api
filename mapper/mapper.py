@@ -9,9 +9,8 @@ from bs4 import BeautifulSoup
 
 class Mapper:
 
-    def json_to_questao(self, json):
-        data = str(json)[int(str(json).find('{')):int(str(json).find('}')) + 1]
-        dict = ast.literal_eval(data)
+    def json_to_questao(self, jsonData):
+        dict = ast.literal_eval(jsonData)
         return self.questao_decoder(dict)
 
     def questao_decoder(self, dict):
@@ -34,8 +33,8 @@ class Mapper:
 
     def verifica_html(self, texto):
         valor = texto
-        if bool(BeautifulSoup(texto, "html.parser").find()) in texto:
-
-            return valor
+        if len(texto) > 0:
+            if bool(BeautifulSoup(texto, "html.parser").find()):
+                return valor
         else:
             return valor

@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/questao', methods=['POST'])
 def cria_questao():
     questaoDao = QuestaoDao()
-    data = request.data
+    data = request.json['data']
     if data:
         mapper = Mapper()
         questao = mapper.json_to_questao(data)
