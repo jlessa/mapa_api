@@ -3,8 +3,10 @@ from flask import Flask, request, jsonify, abort
 from dao.ImagemDao import ImagemDao
 from dao.QuestaoDao import QuestaoDao
 from mapper.mapper import Mapper
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/questao', methods=['POST'])
 def cria_questao():
