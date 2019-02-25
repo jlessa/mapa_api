@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, abort
 from dao.ImagemDao import ImagemDao
 from dao.QuestaoDao import QuestaoDao
@@ -84,5 +85,7 @@ if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
-    app.run(host='127.0.0.1', debug=True)
+    # app.run(host='127.0.0.1', debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 # [END gae_python37_app]
