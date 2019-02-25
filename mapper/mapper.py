@@ -5,6 +5,7 @@ from model.Questao import Questao
 from model.Imagem import Imagem
 import json
 from collections import namedtuple
+from bs4 import BeautifulSoup
 
 class Mapper:
 
@@ -20,15 +21,21 @@ class Mapper:
         questao.assunto = dict['assunto']
         questao.subassunto = dict['subassunto']
         questao.tipo = dict['tipo']
-        questao.enunciado = dict['enunciado']
-        questao.op1 = dict['op1']
-        questao.op2 = dict['op2']
-        questao.op3 = dict['op3']
-        questao.op4 = dict['op4']
-        questao.op5 = dict['op5']
+        questao.enunciado = self.verifica_html(dict['enunciado'])
+        questao.op1 = self.verifica_html(dict['op1'])
+        questao.op2 = self.verifica_html(dict['op2'])
+        questao.op3 = self.verifica_html(dict['op3'])
+        questao.op4 = self.verifica_html(dict['op4'])
+        questao.op5 = self.verifica_html(dict['op5'])
         questao.gabarito = dict['gabarito']
         questao.ano = dict['ano']
         questao.banca = dict['banca']
         return questao
 
+    def verifica_html(self, texto):
+        valor = texto
+        if bool(BeautifulSoup(texto, "html.parser").find()) in texto:
 
+            return valor
+        else:
+            return valor
