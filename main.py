@@ -15,8 +15,7 @@ def cria_questao():
     data = request.json['data']
     if data:
         mapper = Mapper()
-        questao = mapper.json_to_questao(data)
-        questaoDao.questao_save(questao)
+        questao = mapper.salva_questao(data)
         output = {
             "ok": "Sucesso",
             "url": request.url,
