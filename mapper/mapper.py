@@ -75,7 +75,7 @@ class Mapper:
     def pega_imagem(self, html, questao, tipo):
         # imagens = html.findAll('img')
         valor = ''
-        caminho = '.\\imagem\\Criadas\\'
+        caminho = './imagem/Criadas/'
         # for imagemHtml in imagens:
         imagemDao = ImagemDao()
         imagem = Imagem()
