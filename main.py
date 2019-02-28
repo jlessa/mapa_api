@@ -4,6 +4,8 @@ from dao.ImagemDao import ImagemDao
 from dao.QuestaoDao import QuestaoDao
 from mapper.mapper import Mapper
 from flask_cors import CORS
+import ast
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -11,24 +13,31 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/questao', methods=['POST'])
 def cria_questao():
-    questaoDao = QuestaoDao()
     data = request.json['data']
-    if data:
-        mapper = Mapper()
-        questao = mapper.salva_questao(data)
+    if len(ast.literal_eval(data)['enunciado']) == 0:
         output = {
-            "ok": "Sucesso",
+            "error": "Questão Vazia",
             "url": request.url,
         }
         res = jsonify(output)
-        res.status_code = 200
+        res.status_code = 401
     else:
-        output = {
-            "error": "No results found. Check url again",
-            "url": request.url,
-        }
-        res = jsonify(output)
-        res.status_code = 404
+        if data:
+            mapper = Mapper()
+            questao = mapper.salva_questao(data)
+            output = {
+                "ok": "Sucesso",
+                "url": request.url,
+            }
+            res = jsonify(output)
+            res.status_code = 200
+        else:
+            output = {
+                "error": "No results found. Check url again",
+                "url": request.url,
+            }
+            res = jsonify(output)
+            res.status_code = 404
     return res
 
 @app.route('/questao', methods=['GET'])
